@@ -44,7 +44,7 @@ export class UsersService {
 			where: { id }
 		})
 
-		if (!id) {
+		if (!User) {
 			throw new NotFoundException(`Não achei um User com o id ${id}`)
 		}
 		return User
@@ -63,10 +63,6 @@ export class UsersService {
 	}
 	async remove(id: number): Promise<void> {
 		await this.findOne(id)
-
-		if (!id) {
-			throw new NotFoundException(`Não achei um User com o id ${id}`)
-		}
 		this.userRepository.softDelete({ id })
 	}
 
