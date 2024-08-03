@@ -3,7 +3,7 @@ import { CreateVehicleDto } from './dto/create-vehicle.dto'
 import { UpdateVehicleDto } from './dto/update-vehicle.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Vehicle } from './entities/vehicle.entity'
-import { DeepPartial, Repository } from 'typeorm'
+import { Repository } from 'typeorm'
 import { UsersService } from 'src/users/users.service'
 import { User } from 'src/users/entities/user.entity'
 
@@ -54,6 +54,15 @@ export class VehicleService {
 			throw new NotFoundException(`Não achei um Vehicle com o id ${id}`)
 		}
 		return vehicle
+	}
+
+	async findByUserId(userId: number): Promise<Vehicle[]> {
+		return await this.vehicleRepository.find({
+			where: { user: { id: userId } },
+			relations: {
+				user: true
+			}
+		})
 	}
 
 	async update(id: number, updateVehicleDto: UpdateVehicleDto): Promise<void> {

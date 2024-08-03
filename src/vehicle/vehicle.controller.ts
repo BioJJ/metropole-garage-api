@@ -33,6 +33,11 @@ export class VehicleController {
 		return await this.vehicleService.findOne(+id)
 	}
 
+	@Get('user/:userId')
+	async findByUserId(@Param('userId') userId: number): Promise<Vehicle[]> {
+		return this.vehicleService.findByUserId(userId)
+	}
+
 	@Patch(':id')
 	async update(
 		@Param('id') id: string,
